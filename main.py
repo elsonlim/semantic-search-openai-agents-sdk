@@ -105,15 +105,12 @@ except Exception as e:
     print("Please ensure your OPENAI_API_KEY is set correctly in your .env file.")
     openai_available = False
 
-
+# Define the chat function
 def chat(message, history):
     if not openai_available:
         return "OpenAI client not available. Please check your .env file."
     
-    messages = []
-    messages.append({"role": "system", "content": system_prompt})
-    messages.extend(history)
-    messages.append({"role": "user", "content": message})
+    messages = [{"role": "system", "content": system_prompt}] + history + [{"role": "user", "content": message}]
 
     done = False
     while not done:
@@ -140,5 +137,5 @@ def chat(message, history):
     return response.choices[0].message.content
  
 
-
+# Launch the chat interface
 gr.ChatInterface(chat, type="messages").launch()
