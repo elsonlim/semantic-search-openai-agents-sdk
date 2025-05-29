@@ -8,5 +8,6 @@ dependencies = [
     "dotenv>=0.9.9",
     "gradio>=5.31.0",
     "openai>=1.82.0",
+    "openai-agents>=0.0.16",
     "requests>=2.32.3",
 ]

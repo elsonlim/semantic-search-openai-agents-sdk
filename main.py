@@ -1,77 +1,19 @@
-# Import libraries
-import gradio as gr
+# Load environment variables
 from dotenv import load_dotenv
-from openai import OpenAI
-import requests
-import json
-import os
-
 load_dotenv(override=True)
 
-# Setup push notification
-pushover_user = os.getenv("PUSHOVER_USER")
-pushover_token = os.getenv("PUSHOVER_TOKEN")
-pushover_url = "https://api.pushover.net/1/messages.json"
+# Import libraries
+import gradio as gr
+from openai import OpenAI
 
-def push(message):
-    print(f"2. Push: {message}")
-    payload = {"user": pushover_user, "token": pushover_token, "message": message}
-    requests.post(pushover_url, data=payload)
-    return {"recorded": "ok"}
+import json
+from agents import GuardrailFunctionOutput, Agent, Runner
+from find_user import find_user
+from record_unknown_question import record_unknown_question_json, record_unknown_question
 
-# Setup Semantic Search Tool
-userDB = [{
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "notes": "John Doe is a software engineer at Google"
-}, {
-    "name": "Jane Smith",
-    "email": "jane.smith@example.com",
-    "notes": "Jane Smith is a software engineer at Apple"
-}]
-
-def find_user(name):
-    print(f"2. Searching: {name}")
-    for user in userDB:
-        if user["name"].lower() == name.lower():
-            return str(user)
-    return f"No user of {name} found"
-
-find_user_json = {
-    "name": "find_user",
-    "description": "Always use this tool to find a user in the user database",
-    "parameters": {
-        "type": "object",
-        "properties": {"name": {"type": "string", "description": "The name of the user to find"}},
-        "required": ["name"],
-        "additionalProperties": False
-    }
-}
-
-# record_user_query_tool
-def record_unknown_question(question):
-    push(f"2. Recording {question} asked that I couldn't answer")
-    return {"recorded": "ok"}
-
-record_unknown_question_json = {
-    "name": "record_unknown_question",
-    "description": "Always use this tool to record that a user asked a question that you couldn't answer",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "question": {
-                "type": "string",
-                "description": "The question that the user asked"
-            }
-        },
-        "required": ["question"],
-        "additionalProperties": False
-    }
-}
 
 # setup toos
-tools = [{"type": "function", "function": find_user_json},
-        {"type": "function", "function": record_unknown_question_json}]
+tools = [find_user, {"type": "function", "function": record_unknown_question_json}]
 
 
 def handle_tool_calls(tool_calls):
