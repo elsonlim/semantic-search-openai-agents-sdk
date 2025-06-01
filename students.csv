@@ -1,0 +1,8 @@
+StudentID,FirstName,LastName,DateOfBirth,Grade,EmailAddress
+1001,Alice,Smith,2008-09-15,1,alice.smith@example.com
+1002,Bob,Johnson,2007-03-20,2,bob.johnson@example.com
+1003,Charlie,Brown,2009-11-01,3,charlie.brown@example.com
+1004,Diana,Prince,2008-05-25,4,diana.prince@example.com
+1005,Ethan,Hunt,2007-01-10,5,ethan.hunt@example.com
+1006,Ethan,Lim,2007-02-22,6,ethan.lim@example.com
+1007,Diana,Lim,2007-03-33,7,diana.lim@example.com

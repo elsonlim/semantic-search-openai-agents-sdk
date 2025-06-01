@@ -10,6 +10,7 @@ import json
 from agents import GuardrailFunctionOutput, Agent, Runner
 from find_user import find_user
 from record_unknown_question import record_unknown_question_json, record_unknown_question
+from students_find import agent as students_agent
 
 
 # setup toos
